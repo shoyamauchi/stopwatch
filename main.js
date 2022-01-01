@@ -6,23 +6,35 @@ let reset = document.getElementById("reset");
 let hours = 0;
 let minutes =0;
 let seconds =0;
+let milliseconds =0;
 
 let newHours =0;
 let newMinutes =0;
 let newSeconds =0;
+let newMilliseconds =0;
 
 let status ="able";
 let interval;
 
 function stopWatch(){
-  seconds++;
-  if(seconds / 60 == 1){
+  milliseconds++;
+  if(milliseconds / 100 == 1){
+   seconds++;
+   milliseconds = 0;
+   if(seconds / 60 == 1){
    minutes++;
    seconds = 0;
-   if(minutes / 60 == 1){
+    if(minutes / 60 == 1){
     hours++;
     minutes = 0;
+    }
    }
+  }
+  
+  if(milliseconds < 10){
+    newMilliseconds = "0" + milliseconds;
+  }else{
+   newMilliseconds = milliseconds;
   }
   if(seconds < 10){
     newSeconds = "0" + seconds;
@@ -42,13 +54,13 @@ function stopWatch(){
   }
   
  
-  display.innerHTML = newHours + ":" + newMinutes + ":" + newSeconds;
+  display.innerHTML = newHours + ":" + newMinutes + ":" + newSeconds + ":" + newMilliseconds;
 }
 
 
 start.addEventListener("click",function(){
    if(status == "able"){
-    interval = setInterval(stopWatch, 100);
+    interval = setInterval(stopWatch, 10);
     status = "disable";
    }
 })
@@ -62,7 +74,7 @@ stop.addEventListener("click",function(){
 
 reset.addEventListener("click",function(){
    clearInterval(interval); 
-   display.innerHTML = "00:00:00"
+   display.innerHTML = "00:00:00:00"
    hours = 0;
    minutes = 0;
    seconds = 0;
